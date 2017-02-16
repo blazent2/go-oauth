@@ -1,5 +1,11 @@
 # Go-OAuth
 
+THIS IS A FORK OF https://github.com/garyburd/go-oauth
+A fork was necessary to allow us to cancel requests
+from the oauth client - lets us kill long running http responses from Twitter when we need to refresh
+query params. Otherwise, all functionality is exactly
+the same.
+
 [![GoDoc](https://godoc.org/github.com/garyburd/go-oauth/oauth?status.svg)](https://godoc.org/github.com/garyburd/go-oauth/oauth)
 [![Build Status](https://travis-ci.org/garyburd/go-oauth.svg?branch=master)](https://travis-ci.org/garyburd/go-oauth)
 
@@ -16,14 +22,14 @@ HMAC-SHA1, RSA-SHA1 and PLAINTEXT signatures.
 Go-OAuth is available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 ## Documentation
-    
+
 - [Reference](http://godoc.org/github.com/garyburd/go-oauth/oauth)
 - Examples
     - [Discogs](http://github.com/garyburd/go-oauth/tree/master/examples/discogs)
     - [Dropbox](http://github.com/garyburd/go-oauth/tree/master/examples/dropbox)
     - [Quickbooks](http://github.com/garyburd/go-oauth/tree/master/examples/quickbooks)
     - [SmugMug](https://github.com/garyburd/go-oauth/tree/master/examples/smugmug)
-    - [Twitter on App Engine](http://github.com/garyburd/go-oauth/tree/master/examples/appengine) 
-    - [Twitter](http://github.com/garyburd/go-oauth/tree/master/examples/twitter) 
+    - [Twitter on App Engine](http://github.com/garyburd/go-oauth/tree/master/examples/appengine)
+    - [Twitter](http://github.com/garyburd/go-oauth/tree/master/examples/twitter)
     - [Twitter OOB](http://github.com/garyburd/go-oauth/tree/master/examples/twitteroob) (a command line application using OOB authorization)
     - [Yelp](https://github.com/garyburd/go-oauth/tree/master/examples/yelp)
