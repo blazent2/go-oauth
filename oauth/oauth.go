@@ -57,7 +57,7 @@
 // The Get, Put, Post and Delete methods sign and invoke a request using the
 // supplied net/http Client. These methods are easy to use, but not as flexible
 // as constructing a request using one of the low-level methods.
-package oauth // import "github.com/garyburd/go-oauth/oauth"
+package oauth // import "github.com/blazent2/go-oauth/oauth"
 
 import (
 	"bytes"
@@ -467,41 +467,42 @@ func (c *Client) Get(client *http.Client, credentials *Credentials, urlStr strin
 	return client.Do(req)
 }
 
-func (c *Client) do(client *http.Client, method string, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error) {
+func (c *Client) do(client *http.Client, method string, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error, *http.Request) {
 	req, err := http.NewRequest(method, urlStr, strings.NewReader(form.Encode()))
 	if err != nil {
-		return nil, err
+		return nil, err, nil
 	}
 	for k, v := range c.Header {
 		req.Header[k] = v
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	if err := c.SetAuthorizationHeader(req.Header, credentials, method, req.URL, form); err != nil {
-		return nil, err
+		return nil, err, nil
 	}
 	if client == nil {
 		client = http.DefaultClient
 	}
-	return client.Do(req)
+	resp, err := client.Do(req)
+	return resp, err, req
 }
 
 // Post issues a POST with the specified form.
-func (c *Client) Post(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error) {
+func (c *Client) Post(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error, *http.Request) {
 	return c.do(client, "POST", credentials, urlStr, form)
 }
 
 // Delete issues a DELETE with the specified form.
-func (c *Client) Delete(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error) {
+func (c *Client) Delete(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error, *http.Request) {
 	return c.do(client, "DELETE", credentials, urlStr, form)
 }
 
 // Put issues a PUT with the specified form.
-func (c *Client) Put(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error) {
+func (c *Client) Put(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*http.Response, error, *http.Request) {
 	return c.do(client, "PUT", credentials, urlStr, form)
 }
 
 func (c *Client) requestCredentials(client *http.Client, credentials *Credentials, urlStr string, form url.Values) (*Credentials, url.Values, error) {
-	resp, err := c.Post(client, credentials, urlStr, form)
+	resp, err, _ := c.Post(client, credentials, urlStr, form)
 	if err != nil {
 		return nil, nil, err
 	}
